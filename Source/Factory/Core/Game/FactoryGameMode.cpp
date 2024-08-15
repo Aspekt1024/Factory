@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "FactoryGameMode.h"
-#include "FactoryCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AFactoryGameMode::AFactoryGameMode()

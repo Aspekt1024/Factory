@@ -29,10 +29,10 @@ public:
 	TMap<USplineMeshComponent*, FVector2D> SplineMeshComps;
 	
 	UFUNCTION(BlueprintCallable)
-	void InitialiseSpline(USplineComponent* SplineRef, const USceneComponent* StartPoint, const USceneComponent* EndPoint);
+	void InitialiseSpline(USplineComponent* SplineRef, const FTransform& StartPoint, const FTransform& EndPoint);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateSpline();
+	void UpdateSpline(const FTransform& EndPoint);
 
 	UPROPERTY(BlueprintAssignable)
 	FMeshUpdateDelegate OnMeshComponentCreated;
@@ -42,12 +42,12 @@ private:
 	USplineComponent* Spline;
 
 	UPROPERTY()
-	const USceneComponent* StartComponent;
+	FTransform StartTransform;
 	
 	UPROPERTY()
-	const USceneComponent* EndComponent;
+	FTransform EndTransform;
 	
-	void SetSplineEndpoint(const int32 PointIndex, const int32 ExtrudeIndex, const USceneComponent* Component) const;
+	void SetSplineEndpoint(const int32 PointIndex, const int32 ExtrudeIndex, const FTransform& EndPoint) const;
 	void SetExtrudeTangents() const;
 	void UpdateMesh();
 	void SetStartAndEndPoints(USplineMeshComponent* SplineMeshComponent, const int32 Index, const float TempSectionLength) const;

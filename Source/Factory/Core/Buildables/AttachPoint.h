@@ -2,7 +2,6 @@
 
 #include "CoreMinimal.h"
 #include "Buildable.h"
-#include "Components/BoxComponent.h"
 #include "AttachPoint.generated.h"
 
 UENUM(BlueprintType)
@@ -14,7 +13,7 @@ enum class EAttachDirection : uint8
 };
 
 UCLASS(Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
-class FACTORY_API UAttachPoint : public UBoxComponent
+class FACTORY_API AAttachPoint : public AActor
 {
 	GENERATED_BODY()
 	

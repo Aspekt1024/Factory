@@ -1,10 +1,10 @@
 ﻿#include "BuildableSplineComponent.h"
 
-void UBuildableSplineComponent::InitialiseSpline(USplineComponent* SplineRef, const USceneComponent* StartPoint, const USceneComponent* EndPoint)
+void UBuildableSplineComponent::InitialiseSpline(USplineComponent* SplineRef, const FTransform& StartPoint, const FTransform& EndPoint)
 {
 	Spline = SplineRef;
-	StartComponent = StartPoint;
-	EndComponent = EndPoint;
+	StartTransform = StartPoint;
+	EndTransform = EndPoint;
 
 	Spline->ClearSplinePoints(false);
 	for (int i = 0; i < 4; i++)
@@ -12,22 +12,22 @@ void UBuildableSplineComponent::InitialiseSpline(USplineComponent* SplineRef, co
 		Spline->AddSplinePointAtIndex(FVector::ZeroVector, i, ESplineCoordinateSpace::World, false);
 	}
 	
-	SetSplineEndpoint(0, 1, StartComponent);
-	UpdateSpline();
+	SetSplineEndpoint(0, 1, StartTransform);
+	UpdateSpline(EndTransform);
 }
 
-void UBuildableSplineComponent::UpdateSpline()
+void UBuildableSplineComponent::UpdateSpline(const FTransform& EndPoint)
 {
 	const int32 EndPointIndex = Spline->GetNumberOfSplinePoints() - 1;
-	SetSplineEndpoint(EndPointIndex, EndPointIndex - 1, EndComponent);
+	SetSplineEndpoint(EndPointIndex, EndPointIndex - 1, EndPoint);
 	Spline->UpdateSpline();
 	UpdateMesh();
 }
 
-void UBuildableSplineComponent::SetSplineEndpoint(const int32 PointIndex, const int32 ExtrudeIndex, const USceneComponent* Component) const
+void UBuildableSplineComponent::SetSplineEndpoint(const int32 PointIndex, const int32 ExtrudeIndex, const FTransform& EndPoint) const
 {
-	const FVector EndpointLocation = Component->GetComponentLocation();
-	const FVector Forward = Component->GetForwardVector() * SectionLength;
+	const FVector EndpointLocation = EndPoint.GetLocation();
+	const FVector Forward = EndPoint.GetRotation().GetForwardVector() * SectionLength;
 	const float Direction = PointIndex < ExtrudeIndex ? 1.f : -1.f;
 
 	Spline->SetLocationAtSplinePoint(PointIndex, EndpointLocation, ESplineCoordinateSpace::World, false);
