@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateSpline(const FTransform& EndPoint);
 
+	UFUNCTION(BlueprintCallable)
+	void ClearSpline();
+
 	UPROPERTY(BlueprintAssignable)
 	FMeshUpdateDelegate OnMeshComponentCreated;
 

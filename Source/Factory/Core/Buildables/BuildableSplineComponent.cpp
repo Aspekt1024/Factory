@@ -24,6 +24,18 @@ void UBuildableSplineComponent::UpdateSpline(const FTransform& EndPoint)
 	UpdateMesh();
 }
 
+void UBuildableSplineComponent::ClearSpline()
+{
+	TArray<USplineMeshComponent*> MeshComps;
+	const int32 NumKeys = SplineMeshComps.GetKeys(MeshComps);
+	for (int i = NumKeys - 1; i >= 0; --i)
+	{
+		SplineMeshComps.Remove(MeshComps[i]);
+		MeshComps[i]->DestroyComponent();
+	}
+	Spline->ClearSplinePoints();
+}
+
 void UBuildableSplineComponent::SetSplineEndpoint(const int32 PointIndex, const int32 ExtrudeIndex, const FTransform& EndPoint) const
 {
 	const FVector EndpointLocation = EndPoint.GetLocation();
@@ -119,7 +131,7 @@ void UBuildableSplineComponent::SetStartAndEndPoints(USplineMeshComponent* Splin
 USplineMeshComponent* UBuildableSplineComponent::CreateNewSplineMeshComponent() const
 {
 	USplineMeshComponent* MeshComp = NewObject<USplineMeshComponent>(GetOwner(), USplineMeshComponent::StaticClass(), NAME_None, RF_Transient);
-	MeshComp ->Mobility = EComponentMobility::Type::Movable;
+	MeshComp->Mobility = EComponentMobility::Type::Movable;
 	MeshComp->SetForwardAxis(ESplineMeshAxis::X, true);
 	MeshComp->SetCollisionEnabled(ECollisionEnabled::Type::NoCollision);
 	
