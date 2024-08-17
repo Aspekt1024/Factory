@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
-#include "Factory/FactoryCharacter.h"
+#include "Player/FactoryCharacter.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PlayerSubsystem.generated.h"
 
@@ -18,7 +18,7 @@ public:
 	void InitializeSubsystem(AFactoryCharacter* PlayerRef);
 	
 	UFUNCTION(BlueprintCallable)
-	void LineTraceFromCamera(FHitResult &HitResult_Out, bool &IsHit_Out) const;
+	void LineTraceFromCamera(ECollisionChannel TraceChannel, FHitResult &HitResult_Out, bool &IsHit_Out) const;
 
 	UFUNCTION(BlueprintCallable)
 	float GetLookHeightAboveObject(AActor* Actor) const;

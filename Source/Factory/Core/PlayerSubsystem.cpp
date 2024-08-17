@@ -14,13 +14,13 @@ void UPlayerSubsystem::InitializeSubsystem(AFactoryCharacter* PlayerRef)
 	DebugLog("Player Subsystem intitialised");
 }
 
-void UPlayerSubsystem::LineTraceFromCamera(FHitResult &HitResult_Out, bool &IsHit_Out) const
+void UPlayerSubsystem::LineTraceFromCamera(ECollisionChannel TraceChannel, FHitResult &HitResult_Out, bool &IsHit_Out) const
 {
 	const UCameraComponent* Cam = Player->GetFirstPersonCameraComponent();
 	const FVector Location = Cam->GetComponentLocation();
 	const FVector Forward = Cam->GetForwardVector();
 
-	IsHit_Out = GetWorld()->LineTraceSingleByChannel(HitResult_Out, Location, Location + Forward * 1500.f, ECC_Visibility);
+	IsHit_Out = GetWorld()->LineTraceSingleByChannel(HitResult_Out, Location, Location + Forward * 1500.f, TraceChannel);
 }
 
 float UPlayerSubsystem::GetLookHeightAboveObject(AActor* Actor) const
