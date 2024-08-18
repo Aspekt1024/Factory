@@ -36,6 +36,18 @@ void UBuildableSplineComponent::ClearSpline()
 	Spline->ClearSplinePoints();
 }
 
+void UBuildableSplineComponent::GetStartLocationAndRotation(FVector &Location_Out, FRotator &Rotation_Out) const
+{
+	Location_Out = Spline->GetLocationAtSplinePoint(0, ESplineCoordinateSpace::World);
+	Rotation_Out = Spline->GetRotationAtSplinePoint(0, ESplineCoordinateSpace::World);
+}
+
+void UBuildableSplineComponent::GetEndLocationAndRotation(FVector &Location_Out, FRotator &Rotation_Out) const
+{
+	Location_Out = Spline->GetLocationAtSplinePoint(Spline->GetNumberOfSplinePoints() - 1, ESplineCoordinateSpace::World);
+	Rotation_Out = Spline->GetRotationAtSplinePoint(Spline->GetNumberOfSplinePoints() - 1, ESplineCoordinateSpace::World);
+}
+
 void UBuildableSplineComponent::SetSplineEndpoint(const int32 PointIndex, const int32 ExtrudeIndex, const FTransform& EndPoint) const
 {
 	const FVector EndpointLocation = EndPoint.GetLocation();
