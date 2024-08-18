@@ -40,10 +40,16 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FMeshUpdateDelegate OnMeshComponentCreated;
 
+	UFUNCTION(BlueprintCallable)
+	void GetStartLocationAndRotation(FVector &Location_Out, FRotator &Rotation_Out) const;
+	
+	UFUNCTION(BlueprintCallable)
+	void GetEndLocationAndRotation(FVector &Location_Out, FRotator &Rotation_Out) const;
+
 private:
 	UPROPERTY()
 	USplineComponent* Spline;
-
+	
 	UPROPERTY()
 	FTransform StartTransform;
 	
