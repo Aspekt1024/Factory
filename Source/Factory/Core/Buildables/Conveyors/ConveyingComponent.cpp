@@ -30,9 +30,10 @@ void UConveyingComponent::TickComponent(const float DeltaTime, const ELevelTick 
 			PathingItems[i].PathDistance = SplineLength;
 			const FVector NewLocation = SplineComponent->Spline->GetWorldLocationAtDistanceAlongSpline(SplineLength);
 			PathingItems[i].Item->SetActorLocation(NewLocation);
+			AItem* Item = PathingItems[i].Item;
 			PathingItems.RemoveAt(i);
 			//Position needs to be set before broadcast
-			OnItemReachedSplineEnd.Broadcast(PathingItems[i].Item);
+			OnItemReachedSplineEnd.Broadcast(Item);
 		}
 		else
 		{
