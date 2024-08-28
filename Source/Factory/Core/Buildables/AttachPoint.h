@@ -62,6 +62,9 @@ public:
 	void SetConnectionEnabled(bool IsEnabled) const;
 
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	bool CanGiveItem(AItem* Item) const;
+	
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
 	void GiveItem(AItem* Item);
 
 

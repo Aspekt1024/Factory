@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Buildable.generated.h"
 
+class AItem;
 class AAttachPoint;
 
 UCLASS(Blueprintable, BlueprintType)
@@ -18,5 +19,9 @@ public:
 	void OnAttachmentAdded(AAttachPoint* AttachPoint, AAttachPoint* Other);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "AttachPoint")
+	bool CanReceiveItem(AItem* Item);
+	
+	UFUNCTION(BlueprintImplementableEvent, Category = "AttachPoint")
 	void OnItemReceived(AAttachPoint* AttachPoint, AItem* Item);
+
 };

@@ -64,6 +64,11 @@ void AAttachPoint::SetConnectionEnabled(const bool IsEnabled) const
 	}
 }
 
+bool AAttachPoint::CanGiveItem(AItem* Item) const
+{
+	return ParentBuildable->CanReceiveItem(Item);
+}
+
 void AAttachPoint::GiveItem(AItem* Item)
 {
 	ParentBuildable->OnItemReceived(this, Item);

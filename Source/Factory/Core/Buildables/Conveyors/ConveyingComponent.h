@@ -20,22 +20,33 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Conveyors")
 	float ConveyorSpeed;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Conveyors")
+	float ItemSeparationDist;
+	
 	UPROPERTY(BlueprintAssignable, Category = "Conveyors")
 	FItemSplineDelegate OnItemReachedSplineEnd;
 	
 	UFUNCTION(BlueprintCallable, Category = "Conveyors")
 	void Init(UBuildableSplineComponent* SplineComponentRef);
 
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UFUNCTION(BlueprintCallable, Category = "Conveyors")
+	bool CanConveyItem() const;
+	
+	UFUNCTION(BlueprintCallable, Category = "Conveyors")
+	void StartConveyingItem(AItem* Item);
 
 	UFUNCTION(BlueprintCallable, Category = "Conveyors")
-	void PathItemAlongSpline(AItem* Item);
-
-	UPROPERTY()
-	TArray<FPathingItem> PathingItems;
+	void RemoveLastItem();
+	
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 
 private:
 	UPROPERTY()
 	UBuildableSplineComponent* SplineComponent;
+
+	UPROPERTY()
+	TArray<FPathingItem> PathingItems;
+
+	float LastItemDist;
 };
