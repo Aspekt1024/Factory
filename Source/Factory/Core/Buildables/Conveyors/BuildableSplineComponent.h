@@ -28,6 +28,9 @@ public:
 	UPROPERTY(BlueprintReadOnly)
 	TMap<USplineMeshComponent*, FVector2D> SplineMeshComps;
 	
+	UPROPERTY()
+	USplineComponent* Spline;
+	
 	UFUNCTION(BlueprintCallable)
 	void InitialiseSpline(USplineComponent* SplineRef, const FTransform& StartPoint, const FTransform& EndPoint);
 
@@ -47,9 +50,6 @@ public:
 	void GetEndLocationAndRotation(FVector &Location_Out, FRotator &Rotation_Out) const;
 
 private:
-	UPROPERTY()
-	USplineComponent* Spline;
-	
 	UPROPERTY()
 	FTransform StartTransform;
 	
