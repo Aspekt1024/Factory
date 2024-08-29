@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "Factory/Core/Buildables/AttachPoint.h"
 #include "Factory/Core/Items/Item.h"
 #include "ConveyingComponent.generated.h"
 
@@ -18,16 +19,19 @@ public:
 	UConveyingComponent();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Conveyors")
-	float ConveyorSpeed;
+	float ConveyorSpeed = 50.f;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Conveyors")
-	float ItemSeparationDist;
+	float ItemSeparationDist = 50.f;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Conveyors")
+	float LastItemDist = 0.0f;
 	
 	UPROPERTY(BlueprintAssignable, Category = "Conveyors")
 	FItemSplineDelegate OnItemReachedSplineEnd;
 	
 	UFUNCTION(BlueprintCallable, Category = "Conveyors")
-	void Init(UBuildableSplineComponent* SplineComponentRef);
+	void Init(UBuildableSplineComponent* SplineComponentRef, AAttachPoint* EndAttachPointRef);
 
 	UFUNCTION(BlueprintCallable, Category = "Conveyors")
 	bool CanConveyItem() const;
@@ -43,10 +47,13 @@ public:
 
 private:
 	UPROPERTY()
-	UBuildableSplineComponent* SplineComponent;
+	UBuildableSplineComponent* SplineComponent = nullptr;
+
+	UPROPERTY()
+	AAttachPoint* EndAttachPoint = nullptr;
 
 	UPROPERTY()
 	TArray<FPathingItem> PathingItems;
-
-	float LastItemDist;
+	
+	bool IsInitialised = false;
 };

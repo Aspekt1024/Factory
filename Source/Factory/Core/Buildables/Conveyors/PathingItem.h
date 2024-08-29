@@ -9,9 +9,9 @@ USTRUCT()
 struct FPathingItem
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY()
-	AItem* Item;
+	AItem* Item = nullptr;
 		
-	float PathDistance;
+	float PathDistance = 0.0f;
 };

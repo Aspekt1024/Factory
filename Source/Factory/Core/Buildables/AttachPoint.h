@@ -67,6 +67,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
 	void GiveItem(AItem* Item);
 
+	UFUNCTION()
+	float GetMinItemDistanceToStart() const;
 
 private:
 	UPROPERTY()

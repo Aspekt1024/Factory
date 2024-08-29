@@ -2,15 +2,19 @@
 
 #include "BuildableSplineComponent.h"
 #include "PathingItem.h"
+#include "Factory/Debug/DebugUtil.h"
 
-UConveyingComponent::UConveyingComponent(): ConveyorSpeed(0), ItemSeparationDist(0), SplineComponent(nullptr)
+UConveyingComponent::UConveyingComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UConveyingComponent::Init(UBuildableSplineComponent* SplineComponentRef)
+void UConveyingComponent::Init(UBuildableSplineComponent* SplineComponentRef, AAttachPoint* EndAttachPointRef)
 {
 	SplineComponent = SplineComponentRef;
+	EndAttachPoint = EndAttachPointRef;
+	IsInitialised = true;
+	DebugLog("init")
 }
 
 bool UConveyingComponent::CanConveyItem() const
@@ -35,17 +39,32 @@ void UConveyingComponent::TickComponent(const float DeltaTime, const ELevelTick 
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (SplineComponent == nullptr || SplineComponent->Spline == nullptr) return;
+	if (!IsInitialised) return;
+
+	DebugLog("conveying")
 
 	const float DistTravelled = ConveyorSpeed * DeltaTime;
 	const float SplineLength = SplineComponent->Spline->GetSplineLength();
 	float MaxDist = SplineLength;
+	if (EndAttachPoint->NextAttachPoint != nullptr)
+	{
+		MaxDist -= EndAttachPoint->NextAttachPoint->GetMinItemDistanceToStart();
+	}
+	else
+	{
+		MaxDist -= ItemSeparationDist * 0.5f;
+	}
+	
 	bool IsLastItemAtEnd = false;
 	for (int i = 0; i < PathingItems.Num(); ++i)
 	{
 		float NewDist = PathingItems[i].PathDistance + DistTravelled;
-		const bool IsAtMaxDist = NewDist >= MaxDist;
-		if (IsAtMaxDist)
+		if (i == 0 && NewDist >= SplineLength) // first item is always head of the queue
+		{
+			IsLastItemAtEnd = true;
+		}
+		
+		if (NewDist >= MaxDist)
 		{
 			NewDist = MaxDist;
 		}
@@ -53,11 +72,6 @@ void UConveyingComponent::TickComponent(const float DeltaTime, const ELevelTick 
 		PathingItems[i].PathDistance = NewDist;
 		const FVector NewLocation = SplineComponent->Spline->GetWorldLocationAtDistanceAlongSpline(NewDist);
 		PathingItems[i].Item->SetActorLocation(NewLocation);
-
-		if (IsAtMaxDist && i == 0) // first item is always head of the queue
-		{
-			IsLastItemAtEnd = true;
-		}
 
 		if (i == PathingItems.Num() - 1)
 		{

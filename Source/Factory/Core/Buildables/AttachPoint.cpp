@@ -73,3 +73,8 @@ void AAttachPoint::GiveItem(AItem* Item)
 {
 	ParentBuildable->OnItemReceived(this, Item);
 }
+
+float AAttachPoint::GetMinItemDistanceToStart() const
+{
+	return ParentBuildable->GetMinItemDistanceToStart();
+}

@@ -24,4 +24,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "AttachPoint")
 	void OnItemReceived(AAttachPoint* AttachPoint, AItem* Item);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "AttachPoint")
+	float GetMinItemDistanceToStart();
+
 };
