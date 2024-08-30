@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "CoreMinimal.h"
+#include "Factory/Core/Items/Item.h"
 #include "AttachPoint.generated.h"
 
 class ABuildable;
@@ -39,8 +40,17 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "AttachPoint")
 	ABuildable* ParentBuildable;
 
+	UPROPERTY(BlueprintReadOnly, Category = "AttachPoint")
+	AAttachPoint* NextAttachPoint;
+
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
 	void Initialise(ABuildable* Parent, UShapeComponent* AttachCollider);
+
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	void SetDirection(EAttachDirection NewDirection);
+
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	bool CanAttach(AAttachPoint* Other);
 	
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
 	void AttachOther(AAttachPoint* Other);
@@ -49,8 +59,19 @@ public:
 	void DetachOther(AAttachPoint* Other);
 
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	void DetachAll();
+
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
 	void SetConnectionEnabled(bool IsEnabled) const;
 
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	bool CanGiveItem(AItem* Item) const;
+	
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	void GiveItem(AItem* Item);
+
+	UFUNCTION()
+	float GetMinItemDistanceToStart() const;
 
 private:
 	UPROPERTY()
