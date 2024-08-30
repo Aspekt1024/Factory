@@ -43,12 +43,21 @@ void AAttachPoint::DetachOther(AAttachPoint* Other)
 	if (Other == NextAttachPoint)
 	{
 		NextAttachPoint = nullptr;
+		SetConnectionEnabled(true);
 	}
 	
 	AttachedOthers.Remove(Other);
 	if (AttachedOthers.Num() == 0)
 	{
-		Other->ParentBuildable->OnAllAttachmentsRemoved(this);
+		ParentBuildable->OnAllAttachmentsRemoved(this);
+	}
+}
+
+void AAttachPoint::DetachAll()
+{
+	for (int i = AttachedOthers.Num() - 1; i >= 0; --i)
+	{
+		AttachedOthers[i]->DetachOther(this);
 	}
 }
 

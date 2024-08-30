@@ -59,6 +59,9 @@ public:
 	void DetachOther(AAttachPoint* Other);
 
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
+	void DetachAll();
+
+	UFUNCTION(BlueprintCallable, Category = "AttachPoint")
 	void SetConnectionEnabled(bool IsEnabled) const;
 
 	UFUNCTION(BlueprintCallable, Category = "AttachPoint")

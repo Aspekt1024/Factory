@@ -2,7 +2,6 @@
 
 #include "BuildableSplineComponent.h"
 #include "PathingItem.h"
-#include "Factory/Debug/DebugUtil.h"
 
 UConveyingComponent::UConveyingComponent()
 {
@@ -14,7 +13,6 @@ void UConveyingComponent::Init(UBuildableSplineComponent* SplineComponentRef, AA
 	SplineComponent = SplineComponentRef;
 	EndAttachPoint = EndAttachPointRef;
 	IsInitialised = true;
-	DebugLog("init")
 }
 
 bool UConveyingComponent::CanConveyItem() const
@@ -35,13 +33,20 @@ void UConveyingComponent::RemoveLastItem()
 	}
 }
 
+void UConveyingComponent::DestroyItems()
+{
+	for (int i = PathingItems.Num() - 1; i >= 0; --i)
+	{
+		PathingItems[i].Item->Destroy();
+	}
+	PathingItems.Empty();
+}
+
 void UConveyingComponent::TickComponent(const float DeltaTime, const ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (!IsInitialised) return;
-
-	DebugLog("conveying")
 
 	const float DistTravelled = ConveyorSpeed * DeltaTime;
 	const float SplineLength = SplineComponent->Spline->GetSplineLength();

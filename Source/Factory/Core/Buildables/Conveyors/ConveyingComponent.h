@@ -41,6 +41,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Conveyors")
 	void RemoveLastItem();
+
+	UFUNCTION(BlueprintCallable, Category = "Conveyors")
+	void DestroyItems();
 	
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
