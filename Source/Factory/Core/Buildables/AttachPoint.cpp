@@ -45,6 +45,12 @@ void AAttachPoint::DetachOther(AAttachPoint* Other)
 		NextAttachPoint = nullptr;
 		SetConnectionEnabled(true);
 	}
+
+	if (Other->NextAttachPoint == this)
+	{
+		Other->NextAttachPoint = nullptr;
+		Other->SetConnectionEnabled(true);
+	}
 	
 	AttachedOthers.Remove(Other);
 	if (AttachedOthers.Num() == 0)
