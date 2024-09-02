@@ -9,5 +9,7 @@ class FACTORY_API AItem : public AActor
 	GENERATED_BODY()
 	
 public:
+	UPROPERTY(BlueprintReadWrite, Category = "Items")
+	FDataTableRowHandle ItemData;
 	
 };

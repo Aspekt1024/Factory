@@ -19,5 +19,8 @@ struct FItemData : public FTableRowBase
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Items")
 	UTexture* Icon = nullptr;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Items")
+	int MaxStackSize = 100;
 	
 };
