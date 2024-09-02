@@ -75,7 +75,7 @@ void UConveyingComponent::TickComponent(const float DeltaTime, const ELevelTick 
 		}
 		
 		PathingItems[i].PathDistance = NewDist;
-		const FVector NewLocation = SplineComponent->Spline->GetWorldLocationAtDistanceAlongSpline(NewDist);
+		const FVector NewLocation = SplineComponent->Spline->GetWorldLocationAtDistanceAlongSpline(NewDist) + FVector(0, 0, 10.f);
 		PathingItems[i].Item->SetActorLocation(NewLocation);
 
 		if (i == PathingItems.Num() - 1)
